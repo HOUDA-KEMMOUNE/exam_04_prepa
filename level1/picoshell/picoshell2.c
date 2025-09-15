@@ -3,14 +3,14 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-int	picoshell(char **cmds[])
+int    picoshell(char **cmds[])
 {
 	int	status;
 	int	pid;
-	int	prev_fd;
-	int	fds[2];
 	int	i;
 	int	exit_code;
+	int	prev_fd;
+	int	fds[2];
 
 	i = 0;
 	exit_code = 0;
@@ -48,9 +48,7 @@ int	picoshell(char **cmds[])
 			exit (1);
 		}
 		if (prev_fd != -1)
-		{
-			close (prev_fd);
-		}
+			close(prev_fd);
 		if (cmds[i + 1])
 		{
 			prev_fd = fds[0];
@@ -64,14 +62,4 @@ int	picoshell(char **cmds[])
 			exit_code = 1;
 	}
 	return (exit_code);
-}
-
-int	main()
-{
-	char *ls[] = {"ls", "-l", NULL};
-	char *grep[] = {"grep", ".c", NULL};
-	char *wc[] = {"wc", "-l", NULL};
-	char **cmds[] = {ls, grep, wc, NULL};
-
-	picoshell(cmds);
 }

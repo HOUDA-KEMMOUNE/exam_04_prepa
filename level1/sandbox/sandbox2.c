@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <stdbool.h>
-#include <sys/wait.h>
+#include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/wait.h>
 
-int	sandbox(void (*f)(void), unsigned int timeout, bool verbose)
+int sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 {
 	int	pid;
 	int	status;
@@ -35,9 +35,9 @@ int	sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 			if (verbose)
 				printf("Bad function: exited with code %d\n", code);
 			return (0);
-		}		
+		}
 	}
-	else if (WIFSIGNALED(status))
+	if (WIFSIGNALED(status))
 	{
 		int	sig = WTERMSIG(status);
 		if (sig == SIGALRM)
@@ -49,7 +49,7 @@ int	sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 		else
 		{
 			if (verbose)
-				printf("Bad function: %s\n", strsignal(sig));
+				printf("Bad function: %d\n", strsignal(sig));
 			return (0);
 		}
 	}

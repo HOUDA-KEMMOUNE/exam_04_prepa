@@ -63,3 +63,13 @@ int    picoshell(char **cmds[])
     }
     return (exit_code);
 }
+
+int	main()
+{
+	char *echo[] = {"echo", "squalala", NULL};
+	char *cat[] = {"cat", NULL};
+	char *sed[] = {"sed", "s/a/b/g", NULL};
+	char **cmds[] = {echo, cat, sed, NULL};
+// echo 'squalala' "|" cat "|" sed 's/a/b/g'
+	picoshell(cmds);
+}
