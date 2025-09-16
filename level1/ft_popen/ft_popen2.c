@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int ft_popen(const char *file, char *const argv[], char type)
 {
@@ -29,17 +29,16 @@ int ft_popen(const char *file, char *const argv[], char type)
 			close(fds[1]);
 		}
 		execvp(file, argv);
-		exit(1);
+		exit (1);
 	}
-
 	if (type == 'w')
 	{
 		close(fds[0]);
-		return (1);
+		return (fds[1]);
 	}
 	else
 	{
 		close(fds[1]);
-		return (0);
+		return (fds[0]);
 	}
 }

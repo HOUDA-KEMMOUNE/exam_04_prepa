@@ -30,7 +30,7 @@ int	ft_popen(const char *file, char *const argv[], char type)
 			close(fds[0]);
 		}
 		execvp(file, argv);
-		// exit (1);
+		exit (1);
 	}
 	if (type == 'w')
 	{
