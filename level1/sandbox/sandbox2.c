@@ -1,15 +1,15 @@
 #include <stdio.h>
 #include <unistd.h>
-#include <stdbool.h>
 #include <stdlib.h>
+#include <stdbool.h>
+#include <sys/wait.h>
 #include <string.h>
 #include <signal.h>
-#include <sys/wait.h>
 
 int sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 {
-	int	pid;
 	int	status;
+	int	pid;
 
 	pid = fork();
 	if (pid == -1)
@@ -23,8 +23,8 @@ int sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 	{
-		int	code = WEXITSTATUS(status);
-		if (code == 0)
+		int	exit_code = WEXITSTATUS(status);
+		if (exit_code == 0)
 		{
 			if (verbose)
 				printf("Nice function!\n");
@@ -33,11 +33,11 @@ int sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 		else
 		{
 			if (verbose)
-				printf("Bad function: exited with code %d\n", code);
+				printf("Bad function: exited with code %d\n", exit_code);
 			return (0);
 		}
 	}
-	if (WIFSIGNALED(status))
+	else if (WIFSIGNALED(status))
 	{
 		int	sig = WTERMSIG(status);
 		if (sig == SIGALRM)
@@ -49,7 +49,7 @@ int sandbox(void (*f)(void), unsigned int timeout, bool verbose)
 		else
 		{
 			if (verbose)
-				printf("Bad function: %d\n", strsignal(sig));
+				printf("Bad function: %s\n", strsignal(sig));
 			return (0);
 		}
 	}

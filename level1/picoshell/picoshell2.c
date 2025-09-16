@@ -1,16 +1,16 @@
 #include <stdio.h>
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <sys/wait.h>
 
 int    picoshell(char **cmds[])
 {
-	int	status;
-	int	pid;
 	int	i;
+	int	status;
 	int	exit_code;
 	int	prev_fd;
 	int	fds[2];
+	int	pid;
 
 	i = 0;
 	exit_code = 0;
@@ -35,14 +35,14 @@ int    picoshell(char **cmds[])
 			{
 				if (dup2(prev_fd, STDIN_FILENO) < 0)
 					exit (1);
-				close(prev_fd);
+				close (prev_fd);
 			}
 			if (cmds[i + 1])
 			{
 				close(fds[0]);
 				if (dup2(fds[1], STDOUT_FILENO) < 0)
 					exit (1);
-				close(fds[1]);
+				close (fds[1]);
 			}
 			execvp(cmds[i][0], cmds[i]);
 			exit (1);
@@ -51,8 +51,8 @@ int    picoshell(char **cmds[])
 			close(prev_fd);
 		if (cmds[i + 1])
 		{
+			close(fds[1]);
 			prev_fd = fds[0];
-			close (fds[1]);
 		}
 		i++;
 	}
