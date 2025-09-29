@@ -124,8 +124,8 @@ int	main(int ac, char **av)
 	{
 		if (*av[1] && tree)
 			unexpected(*av[1]);
-		else if (!tree)
-			unexpected(0);
+		//else if (!tree)
+		//	unexpected(0);
 		return (1);
 	}
 	printf("%d\n", valid_tree(tree));
